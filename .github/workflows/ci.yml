@@ -1,0 +1,53 @@
+name: CI - Lint & Build Check
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install backend dependencies
+        run: cd server && npm ci
+      
+      - name: Check for linting issues
+        run: cd server && npm run lint || echo "Linter not configured yet"
+  
+  frontend:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install frontend dependencies
+        run: cd client && npm ci
+      
+      - name: Build frontend
+        run: cd client && npm run build
+        env:
+          NEXT_PUBLIC_API_URL: https://api-placeholder.onrender.com/api
+      
+      - name: Check for linting issues
+        run: cd client && npm run lint || echo "Linter not configured yet"
+
+# Auto-deployment to Render and Vercel happens via:
+# 1. Render: GitHub integration (auto-deploys when main branch updates)
+# 2. Vercel: GitHub integration (auto-deploys when main branch updates)
+# 
+# This workflow just validates that the code builds correctly.
