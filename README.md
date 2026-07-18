@@ -214,6 +214,15 @@ This project is structured to be deployed easily on platforms like:
 - Render, Railway, or Heroku for the backend
 - MongoDB Atlas for the database
 
+### Vercel (frontend) — Quick setup
+
+- When adding this repository to Vercel, set the **Project Root** to `client` so Vercel builds the Next.js app there.
+- Add an environment variable `NEXT_PUBLIC_API_URL` with your backend URL (for example: `https://my-backend.example.com/api`).
+- If your backend is deployed on a different host, make sure `ALLOWED_ORIGINS` on the server includes your Vercel domain.
+- A `vercel.json` file has been added to the repo to help Vercel detect the `client` build (see `vercel.json`).
+
+If you still see a 404 page on Vercel after these settings, re-deploy from the Vercel dashboard and confirm the `Project Root` is `client`.
+
 ## 🧠 Why This Project Stands Out
 
 This project is not just a simple task app. It demonstrates:
